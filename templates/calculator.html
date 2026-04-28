@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compound Interest Calculator - WealthSeed</title>
+</head>
+<body>
+    <nav>
+        <h1>WealthSeed</h1>
+        <a href="/">Home</a> |
+        <a href="/calculator">Compound Calculator</a> |
+        <a href="/stocks">Stock Lookup</a> |
+        <a href="/learn">Learn</a>
+    </nav>
+    <main>
+        <h2>Compound Interest Calculator</h2>
+        <p>See how your money can grow over time with the power of compound interest.</p>
+        
+        <form method="POST">
+            <label>Initial Investment ($):</label><br>
+            <input type="number" name="principal" step="0.01" value="1000" required><br><br>
+            
+            <label>Annual Interest Rate (%):</label><br>
+            <input type="number" name="rate" step="0.01" value="7" required><br><br>
+            
+            <label>Years:</label><br>
+            <input type="number" name="years" value="10" required><br><br>
+            
+            <label>Monthly Contribution ($):</label><br>
+            <input type="number" name="contribution" step="0.01" value="100" required><br><br>
+            
+            <button type="submit">Calculate</button>
+        </form>
+        
+        {% if result %}
+            <h3>Your future balance: ${{ "{:,.2f}".format(result) }}</h3>
+            <p>That's the magic of compound interest!</p>
+        {% endif %}
+    </main>
+</body>
+</html>
