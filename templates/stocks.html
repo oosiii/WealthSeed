@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Lookup — WealthSeed</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+        <h1>🌱 WealthSeed</h1>
+        <a href="/">Home</a>
+        <a href="/calculator">Calculator</a>
+        <a href="/stocks">Stocks</a>
+        <a href="/learn">Learn</a>
+    </nav>
+
+    <main>
+        <h2>🔍 Stock Lookup</h2>
+        <p>Enter a stock ticker symbol to see real-time price, performance, and a 30-day chart. Try AAPL, MSFT, TSLA, NVDA, or any major stock.</p>
+
+        <form method="POST">
+            <label>Stock Ticker</label>
+            <input type="text" name="ticker" placeholder="e.g. AAPL" required style="text-transform: uppercase;">
+            <button type="submit">Look it up</button>
+        </form>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if stock %}
+        <div class="result-card">
+            <div class="result-label">{{ stock.name }} ({{ stock.ticker }})</div>
+            <div class="result-value {% if stock.is_up %}up{% else %}down{% endif %}">
+                ${{ "{:,.2f}".format(stock.price) }}
+            </div>
+            <div class="result-detail">
+                <span class="{% if stock.is_up %}change-up{% else %}change-down{% endif %}">
+                    {% if stock.is_up %}▲{% else %}▼{% endif %}
+                    ${{ "{:,.2f}".format(stock.change) }} ({{ stock.change_pct }}%)
+                </span>
+                today
+            </div>
+
+            <canvas id="priceChart" width="400" height="180"></canvas>
+
+            <div class="stock-grid">
+                <div>
+                    <div class="label">Sector</div>
+                    <div class="value">{{ stock.sector }}</div>
+                </div>
+                <div>
+                    <div class="label">Market Cap</div>
+                    <div class="value">
+                        {% if stock.market_cap %}
+                            ${{ "{:,.0f}".format(stock.market_cap / 1_000_000_000) }}B
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <div class="label">52-Week High</div>
+                    <div class="value">${{ "{:,.2f}".format(stock.high_52) if stock.high_52 else "N/A" }}</div>
+                </div>
+                <div>
+                    <div class="label">52-Week Low</div>
+                    <div class="value">${{ "{:,.2f}".format(stock.low_52) if stock.low_52 else "N/A" }}</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {{ stock.dates | tojson }},
+                    datasets: [{
+                        label: '{{ stock.ticker }} — 30 Day Price',
+                        data: {{ stock.prices | tojson }},
+                        borderColor: '{% if stock.is_up %}#1E4D2B{% else %}#B85042{% endif %}',
+                        backgroundColor: '{% if stock.is_up %}rgba(151, 188, 98, 0.15){% else %}rgba(184, 80, 66, 0.15){% endif %}',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: false }
+                    }
+                }
+            });
+        </script>
+        {% endif %}
+    </main>
+
+    <footer>
+        WealthSeed · Built by Osi Oiboh · IS 3020 · Spring 2026
+    </footer>
+</body>
+</html>

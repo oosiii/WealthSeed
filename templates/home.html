@@ -1,20 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WealthSeed</title>
+    <title>WealthSeed — Investing made simple</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <nav>
         <h1>🌱 WealthSeed</h1>
-        <a href="/">Home</a> |
-        <a href="/calculator">Compound Calculator</a> |
-        <a href="/stocks">Stock Lookup</a> |
+        <a href="/">Home</a>
+        <a href="/calculator">Calculator</a>
+        <a href="/stocks">Stocks</a>
         <a href="/learn">Learn</a>
     </nav>
+
     <main>
-        <h2>Plant the seed of your wealth.</h2>
-        <p>WealthSeed teaches young adults the fundamentals of investing through interactive tools and bite-sized lessons.</p>
-        <p>Use the navigation above to explore.</p>
+        <div class="hero">
+            <h2>Plant the seed of your wealth.</h2>
+            <p class="tagline">Investing made simple for the next generation.</p>
+            <p>WealthSeed teaches young adults the fundamentals of investing through interactive tools, real market data, and bite-sized lessons.</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+               <h3>📈 Compound Calculator</h3>
+                <p>See exactly how your money grows over time with the magic of compound interest.</p>
+                <a href="/calculator">Try it →</a>
+            </div>
+            <div class="feature-card">
+                <h3>🔍 Stock Lookup</h3>
+                <p>Look up any stock by ticker and see live prices, charts, and key metrics.</p>
+                <a href="/stocks">Search stocks →</a>
+            </div>
+            <div class="feature-card">
+                <h3>📚 Learn the Basics</h3>
+                <p>Bite-sized lessons covering the fundamentals every new investor should know.</p>
+                <a href="/learn">Start learning →</a>
+            </div>
+        </div>
     </main>
+
+    <footer>
+        WealthSeed · Built by Osi Oiboh · IS 3020 · Spring 2026
+    </footer>
 </body>
 </html>
